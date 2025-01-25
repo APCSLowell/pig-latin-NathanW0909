@@ -1,29 +1,16 @@
 public class PigLatin {
-    
+
     public void tester() {
-        String[] lines = new String[8]; 
-        try {
-            File myFile = new File("words.txt");
-            Scanner myReader = new Scanner(myFile);
-            int counter = 0;
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                lines[counter] = data;
-                counter++;
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
+        String[] lines = {"beast", "dough", "happy", "question", "star", "three", "eagle", "try"};
         System.out.println("there are " + lines.length + " lines");
-        for (int i = 0 ; i < lines.length; i++) {
-            System.out.println(pigLatin(lines[i]));
+        for (String line : lines) {
+            System.out.println(pigLatin(line));
         }
     }
 
     public int findFirstVowel(String sWord) {
         String vowels = "aeiou";
+        sWord = sWord.toLowerCase(); // Handle case sensitivity
         for (int i = 0; i < sWord.length(); i++) {
             if (vowels.contains(Character.toString(sWord.charAt(i)))) {
                 return i;
@@ -33,24 +20,24 @@ public class PigLatin {
     }
 
     public String pigLatin(String sWord) {
+        if (sWord == null || sWord.isEmpty()) {
+            return ""; // Handle empty strings
+        }
+        sWord = sWord.toLowerCase(); // Handle case sensitivity
         int firstVowel = findFirstVowel(sWord);
 
-        // Rule 1: All consonants
         if (firstVowel == -1) {
-            return sWord + "ay";
+            return sWord + "ay"; // Rule 1
         }
 
-        // Rule 2: Starts with a vowel
         if (firstVowel == 0) {
-            return sWord + "way";
+            return sWord + "way"; // Rule 2
         }
 
-        // Rule 3: Starts with "qu"
         if (sWord.startsWith("qu")) {
-            return sWord.substring(2) + "quay";
+            return sWord.substring(2) + "quay"; // Rule 3
         }
 
-        // Rule 4: Starts with consonants
-        return sWord.substring(firstVowel) + sWord.substring(0, firstVowel) + "ay";
+        return sWord.substring(firstVowel) + sWord.substring(0, firstVowel) + "ay"; // Rule 4
     }
 }
